@@ -85,7 +85,7 @@ export default function SettingsDialog({
         type="range"
         toolTipProperties={{
           message:
-            "Higher values will make the output more random, while lower values make the output more focused and deterministic.",
+            "较高的数值会导致输出结果更具随机性，而较低的数值会导致输出结果更具确定性",
           disabled: false,
         }}
         attributes={{
@@ -99,7 +99,7 @@ export default function SettingsDialog({
         left={
           <>
             <FaSyncAlt />
-            <span className="ml-2">Loop #: </span>
+            <span className="ml-2">Loop: </span>
           </>
         }
         value={customMaxLoops}
@@ -108,7 +108,7 @@ export default function SettingsDialog({
         type="range"
         toolTipProperties={{
           message:
-            "Controls the maximum number of loops that the agent will run (higher value will make more API calls).",
+            "控制运行的最大循环数，值越大，调用次数越多(调用会消耗API KEY的次数)",
           disabled: false,
         }}
         attributes={{
