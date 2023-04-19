@@ -89,7 +89,7 @@ const ChatWindow = ({
                 message={{
                   type: "system",
                   value:
-                    "> Create an agent by adding a name / goal, and hitting deploy!",
+                    "> 添加名称或目标，然后点击“部署”按钮创建自动执行任务。",
                 }}
               />
             </Expand>
@@ -97,15 +97,14 @@ const ChatWindow = ({
               <ChatMessage
                 message={{
                   type: "system",
-                  value:
-                    "📢 You can provide your own OpenAI API key in the settings tab for increased limits!",
+                  value: "📢 您可在侧边栏的设置选项中添加您的key以增加使用次数",
                 }}
               />
-              {showDonation && (
+              {/* {showDonation && (
                 <Expand delay={0.7} type="spring">
                   <DonationMessage />
                 </Expand>
-              )}
+              )} */}
             </Expand>
           </>
         )}
@@ -138,7 +137,7 @@ const MacWindowHeader = (props: HeaderProps) => {
       .then((dataUrl) => {
         const link = document.createElement("a");
         link.href = dataUrl;
-        link.download = "agent-gpt-output.png";
+        link.download = "aios-agent-gpt-output.png";
         link.click();
       })
       .catch(console.error);
@@ -172,14 +171,14 @@ const MacWindowHeader = (props: HeaderProps) => {
         delay={0.7}
         onClick={(): void => saveElementAsImage(messageListId)}
         icon={<FaImage size={12} />}
-        text={"Image"}
+        text={"另存为图片"}
       />
 
       <WindowButton
         delay={0.8}
         onClick={(): void => copyElementText(messageListId)}
         icon={<FaClipboard size={12} />}
-        text={"Copy"}
+        text={"复制"}
       />
       <PDFButton messages={props.messages} />
     </div>
@@ -224,7 +223,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
 
       {message.type == "thinking" && (
         <span className="italic text-zinc-400">
-          (Restart if this takes more than 30 seconds)
+          (如果耗时超过30秒，请重新启动)
         </span>
       )}
 
@@ -244,7 +243,7 @@ const ChatMessage = ({ message }: { message: Message }) => {
       <div className="relative">
         {copied ? (
           <span className="absolute bottom-0 right-0 rounded-full border-2 border-white/30 bg-zinc-800 p-1 px-2 text-gray-300">
-            Copied!
+            已复制!
           </span>
         ) : (
           <span
@@ -260,29 +259,29 @@ const ChatMessage = ({ message }: { message: Message }) => {
   );
 };
 
-const DonationMessage = () => {
-  const router = useRouter();
+// const DonationMessage = () => {
+//   const router = useRouter();
 
-  return (
-    <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 text-center font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base md:flex-row">
-      <div className="max-w-none flex-grow">
-        💝️ Help support the advancement of AgentGPT. 💝
-        <br />
-        Please consider sponsoring the project on GitHub.
-      </div>
-      <div className="flex items-center justify-center">
-        <Button
-          className="sm:text m-0 rounded-full text-sm "
-          onClick={() =>
-            void router.push("https://github.com/sponsors/reworkd-admin")
-          }
-        >
-          Support now 🚀
-        </Button>
-      </div>
-    </div>
-  );
-};
+//   return (
+//     <div className="mx-2 my-1 flex flex-col gap-2 rounded-lg border-[2px] border-white/10 bg-blue-500/20 p-1 text-center font-mono hover:border-[#1E88E5]/40 sm:mx-4 sm:p-3 sm:text-base md:flex-row">
+//       <div className="max-w-none flex-grow">
+//         💝️ Help support the advancement of AgentGPT. 💝
+//         <br />
+//         Please consider sponsoring the project on GitHub.
+//       </div>
+//       <div className="flex items-center justify-center">
+//         <Button
+//           className="sm:text m-0 rounded-full text-sm "
+//           onClick={() =>
+//             void router.push("https://github.com/sponsors/reworkd-admin")
+//           }
+//         >
+//           Support now 🚀
+//         </Button>
+//       </div>
+//     </div>
+//   );
+// };
 
 const getMessageIcon = (message: Message) => {
   switch (message.type) {
@@ -300,13 +299,13 @@ const getMessageIcon = (message: Message) => {
 const getMessagePrefix = (message: Message) => {
   switch (message.type) {
     case "goal":
-      return "Embarking on a new goal:";
+      return "开始一个新的目标:";
     case "task":
-      return "Added task:";
+      return "添加任务:";
     case "thinking":
-      return "Thinking...";
+      return "思考中...";
     case "action":
-      return message.info ? message.info : "Executing:";
+      return message.info ? message.info : "运行中:";
   }
 };
 

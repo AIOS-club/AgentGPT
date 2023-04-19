@@ -4,7 +4,7 @@ import {
   FaKey,
   FaMicrochip,
   FaThermometerFull,
-  FaExclamationCircle,
+  FaGlobe,
   FaSyncAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
@@ -36,29 +36,23 @@ export default function SettingsDialog({
     setCustomTemperature,
     customMaxLoops,
     setCustomMaxLoops,
+    customApiUrl,
+    setCustomApiUrl,
   } = reactModelStates;
 
   const [key, setKey] = React.useState<string>(customApiKey);
+  const [url, setUrl] = React.useState<string>(customApiUrl);
 
   const handleClose = () => {
     setKey(customApiKey);
+    setCustomApiUrl(customApiUrl);
     close();
   };
 
-  function is_valid_key(key: string) {
-    const pattern = /^sk-[a-zA-Z0-9]{48}$/;
-    return pattern.test(key);
-  }
-
   const handleSave = () => {
-    if (is_valid_key(key)) {
-      setCustomApiKey(key);
-      close();
-    } else {
-      alert(
-        "key is invalid, please ensure that you have set up billing in your OpenAI account"
-      );
-    }
+    setCustomApiKey(key);
+    setCustomApiUrl(url);
+    close();
   };
 
   React.useEffect(() => {
@@ -85,7 +79,7 @@ export default function SettingsDialog({
         type="range"
         toolTipProperties={{
           message:
-            "Higher values will make the output more random, while lower values make the output more focused and deterministic.",
+            "较高的数值会导致输出结果更具随机性，而较低的数值会导致输出结果更具确定性",
           disabled: false,
         }}
         attributes={{
@@ -99,7 +93,7 @@ export default function SettingsDialog({
         left={
           <>
             <FaSyncAlt />
-            <span className="ml-2">Loop #: </span>
+            <span className="ml-2">Loop: </span>
           </>
         }
         value={customMaxLoops}
@@ -108,7 +102,7 @@ export default function SettingsDialog({
         type="range"
         toolTipProperties={{
           message:
-            "Controls the maximum number of loops that the agent will run (higher value will make more API calls).",
+            "控制运行的最大循环数，值越大，调用次数越多(调用会消耗API KEY的次数)",
           disabled: false,
         }}
         attributes={{
@@ -122,38 +116,16 @@ export default function SettingsDialog({
 
   return (
     <Dialog
-      header="Settings ⚙"
+      header="设置 ⚙"
       isShown={show}
       close={handleClose}
-      footerButton={<Button onClick={handleSave}>Save</Button>}
+      footerButton={<Button onClick={handleSave}>保存</Button>}
     >
-      <p>
-        Here you can add your OpenAI API key. This will require you to pay for
-        your own OpenAI usage but give you greater access to AgentGPT! You can
-        additionally select any model OpenAI offers.
-      </p>
+      <p>您需输入API KEY以使用相关服务.</p>
       <br />
-      <p
-        className={
-          customModelName === GPT_4
-            ? "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
-            : ""
-        }
-      >
-        <FaExclamationCircle className="inline-block" />
-        &nbsp;
-        <b>
-          To use the GPT-4 model, you need to also provide the API key for
-          GPT-4. You can request for it&nbsp;
-          <a
-            href="https://openai.com/waitlist/gpt-4-api"
-            className="text-blue-500"
-          >
-            here
-          </a>
-          . (ChatGPT Plus subscription will not work)
-        </b>
-      </p>
+      <strong className="mt-10">
+        您也可根据需求定义API请求地址,地址需类似https://api.openai.com/v1，并有相同的接口实现
+      </strong>
       <br />
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <Input
@@ -173,31 +145,28 @@ export default function SettingsDialog({
         <Input
           left={
             <>
+              <FaGlobe />
+              <span className="ml-2">API URL: </span>
+            </>
+          }
+          placeholder={"https://api.openai.com/v1"}
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+        <br className="hidden md:inline" />
+        <Input
+          left={
+            <>
               <FaKey />
               <span className="ml-2">Key: </span>
             </>
           }
-          placeholder={"sk-..."}
+          placeholder={"xx-xxxxxxxxxx"}
           value={key}
           onChange={(e) => setKey(e.target.value)}
         />
         <br className="md:inline" />
-        <Accordion
-          child={advancedSettings}
-          name="Advanced Settings"
-        ></Accordion>
-        <br />
-        <strong className="mt-10">
-          NOTE: To get a key, sign up for an OpenAI account and visit the
-          following{" "}
-          <a
-            href="https://platform.openai.com/account/api-keys"
-            className="text-blue-500"
-          >
-            link.
-          </a>{" "}
-          This key is only used in the current browser session
-        </strong>
+        <Accordion child={advancedSettings} name="高级设置"></Accordion>
       </div>
     </Dialog>
   );

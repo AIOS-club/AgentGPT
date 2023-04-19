@@ -11,6 +11,7 @@ import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,
   DEFAULT_MAX_LOOPS_PAID,
+  DEFAULT_API_URL
 } from "../utils/constants";
 import type { Session } from "next-auth";
 
@@ -114,14 +115,14 @@ class AutonomousAgent {
       }
 
       if (newTasks.length == 0) {
-        this.sendActionMessage("Task marked as complete!");
+        this.sendActionMessage("任务标记为完成状态!");
       }
     } catch (e) {
       console.log(e);
       this.sendErrorMessage(
-        `ERROR adding additional task(s). It might have been against our model's policies to run them. Continuing.`
+        `尝试添加额外任务时发生错误。运行这些任务可能会违反我们模型的策略。继续。`
       );
-      this.sendActionMessage("Task marked as complete.");
+      this.sendActionMessage("任务标记为完成状态!");
     }
 
     await this.loop();
@@ -217,24 +218,21 @@ class AutonomousAgent {
   sendLoopMessage() {
     this.sendMessage({
       type: "system",
-      value:
-        this.modelSettings.customApiKey !== ""
-          ? `This agent has been running for too long (50 Loops). To save your wallet this agent is shutting down. In the future, the number of iterations will be configurable.`
-          : "We're sorry, because this is a demo, we cannot have our agents running for too long. Note, if you desire longer runs, please provide your own API key in Settings. Shutting down.",
+      value: "当前进程运行了太长时间(50个循环)。为了节省你的钱包，这个进程要关闭了。"
     });
   }
 
   sendManualShutdownMessage() {
     this.sendMessage({
       type: "system",
-      value: `The agent has been manually shutdown.`,
+      value: `当前进程已手动关闭`,
     });
   }
 
   sendCompletedMessage() {
     this.sendMessage({
       type: "system",
-      value: "All tasks completed. Shutting down.",
+      value: "所有任务完成。关闭进程。",
     });
   }
 
@@ -253,7 +251,7 @@ class AutonomousAgent {
   sendExecutionMessage(task: string, execution: string) {
     this.sendMessage({
       type: "action",
-      info: `Executing "${task}"`,
+      info: `运行中 "${task}"`,
       value: execution,
     });
   }
@@ -270,8 +268,10 @@ class AutonomousAgent {
 const testConnection = async (modelSettings: ModelSettings) => {
   // A dummy connection to see if the key is valid
   // Can't use LangChain / OpenAI libraries to test because they have retries in place
+
+  const url = (modelSettings.customApiUrl ? modelSettings.customApiUrl : DEFAULT_API_URL) +'/chat/completions'
   return await axios.post(
-    "https://api.openai.com/v1/chat/completions",
+    url,
     {
       model: modelSettings.customModelName,
       messages: [{ role: "user", content: "Say this is a test" }],
@@ -291,7 +291,7 @@ const getMessageFromError = (e: unknown) => {
   let message =
     "ERROR accessing OpenAI APIs. Please check your API key or try again later";
   if (axios.isAxiosError(e)) {
-    const axiosError = e as AxiosError;
+    const axiosError = e ;
     if (axiosError.response?.status === 429) {
       message = `ERROR using your OpenAI API key. You've exceeded your current quota, please check your plan and billing details.`;
     }
