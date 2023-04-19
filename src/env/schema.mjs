@@ -2,13 +2,13 @@
 import { z } from "zod";
 
 const requiredForProduction = () => process.env.NODE_ENV === "production"
-    ? z.string().min(1).trim()
-    : z.string().min(1).trim().optional()
+  ? z.string().min(1).trim()
+  : z.string().min(1).trim().optional()
 
 function stringToBoolean() {
   return z.preprocess(
-      (str) => str === "true",
-      z.boolean(),
+    (str) => str === "true",
+    z.boolean(),
   );
 }
 
@@ -29,12 +29,12 @@ export const serverSchema = z.object({
   ),
   OPENAI_API_KEY: z.string(),
 
-  GOOGLE_CLIENT_ID: requiredForProduction(),
-  GOOGLE_CLIENT_SECRET: requiredForProduction(),
-  GITHUB_CLIENT_ID: requiredForProduction(),
-  GITHUB_CLIENT_SECRET: requiredForProduction(),
-  DISCORD_CLIENT_ID: requiredForProduction(),
-  DISCORD_CLIENT_SECRET: requiredForProduction(),
+  GOOGLE_CLIENT_ID: z.string().optional(),
+  GOOGLE_CLIENT_SECRET: z.string().optional(),
+  GITHUB_CLIENT_ID: z.string().optional(),
+  GITHUB_CLIENT_SECRET: z.string().optional(),
+  DISCORD_CLIENT_ID: z.string().optional(),
+  DISCORD_CLIENT_SECRET: z.string().optional(),
 
   STRIPE_SECRET_KEY: z.string().optional(),
   STRIPE_WEBHOOK_SECRET: z.string().optional(),
@@ -56,7 +56,7 @@ export const serverEnv = {
   GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
   GITHUB_CLIENT_ID: process.env.GITHUB_CLIENT_ID,
   GITHUB_CLIENT_SECRET: process.env.GITHUB_CLIENT_SECRET,
-  DISCORD_CLIENT_ID:  process.env.DISCORD_CLIENT_ID,
+  DISCORD_CLIENT_ID: process.env.DISCORD_CLIENT_ID,
   DISCORD_CLIENT_SECRET: process.env.DISCORD_CLIENT_SECRET,
 
   STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
