@@ -172,7 +172,7 @@ const Home: NextPage = () => {
                 </span>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
-                <p>基于AgentGPT开发</p>
+                <p>基于AgentGPT开发,支持接入自定义接口服务</p>
               </div>
             </div>
 

@@ -4,7 +4,7 @@ import {
   FaKey,
   FaMicrochip,
   FaThermometerFull,
-  FaExclamationCircle,
+  FaGlobe,
   FaSyncAlt,
 } from "react-icons/fa";
 import Dialog from "./Dialog";
@@ -145,7 +145,7 @@ export default function SettingsDialog({
         <Input
           left={
             <>
-              <FaKey />
+              <FaGlobe />
               <span className="ml-2">API URL: </span>
             </>
           }
