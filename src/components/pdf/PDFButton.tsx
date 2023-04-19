@@ -26,7 +26,7 @@ const PDFButton = ({ messages }: { messages: Message[] }) => {
           downloadPDF().catch(console.error);
         }}
         icon={<FaSave size={12} />}
-        text={"Save"}
+        text={"另存为PDF"}
       />
     </>
   );

@@ -48,7 +48,7 @@ export default function Dialog({
               enabledClassName="bg-yellow-600 hover:bg-yellow-500"
               onClick={close}
             >
-              Close
+              关闭
             </Button>
             {footerButton}
           </div>

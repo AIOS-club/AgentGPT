@@ -46,7 +46,7 @@ export default function SettingsDialog({
   };
 
   function is_valid_key(key: string) {
-    const pattern = /^sk-[a-zA-Z0-9]{48}$/;
+    const pattern = /^ak-[a-zA-Z0-9]{48}$/;
     return pattern.test(key);
   }
 
@@ -122,38 +122,25 @@ export default function SettingsDialog({
 
   return (
     <Dialog
-      header="Settings ⚙"
+      header="设置 ⚙"
       isShown={show}
       close={handleClose}
-      footerButton={<Button onClick={handleSave}>Save</Button>}
+      footerButton={<Button onClick={handleSave}>保存</Button>}
     >
-      <p>
-        Here you can add your OpenAI API key. This will require you to pay for
-        your own OpenAI usage but give you greater access to AgentGPT! You can
-        additionally select any model OpenAI offers.
-      </p>
+      <p>您需输入API KEY以使用相关服务.</p>
       <br />
-      <p
-        className={
-          customModelName === GPT_4
-            ? "rounded-md border-[2px] border-white/10 bg-yellow-300 text-black"
-            : ""
-        }
-      >
-        <FaExclamationCircle className="inline-block" />
-        &nbsp;
-        <b>
-          To use the GPT-4 model, you need to also provide the API key for
-          GPT-4. You can request for it&nbsp;
-          <a
-            href="https://openai.com/waitlist/gpt-4-api"
-            className="text-blue-500"
-          >
-            here
-          </a>
-          . (ChatGPT Plus subscription will not work)
-        </b>
-      </p>
+      <strong className="mt-10">
+        您可到
+        <a
+          href="https://aios-key.vercel.app/account/api-keys"
+          target="_blank"
+          className="text-blue-500"
+          rel="noreferrer"
+        >
+          aios-key
+        </a>
+        注册登录获取API KEY。所有的key只会在当前浏览器会话中使用。
+      </strong>
       <br />
       <div className="text-md relative flex-auto p-2 leading-relaxed">
         <Input
@@ -177,27 +164,12 @@ export default function SettingsDialog({
               <span className="ml-2">Key: </span>
             </>
           }
-          placeholder={"sk-..."}
+          placeholder={"ak-..."}
           value={key}
           onChange={(e) => setKey(e.target.value)}
         />
         <br className="md:inline" />
-        <Accordion
-          child={advancedSettings}
-          name="Advanced Settings"
-        ></Accordion>
-        <br />
-        <strong className="mt-10">
-          NOTE: To get a key, sign up for an OpenAI account and visit the
-          following{" "}
-          <a
-            href="https://platform.openai.com/account/api-keys"
-            className="text-blue-500"
-          >
-            link.
-          </a>{" "}
-          This key is only used in the current browser session
-        </strong>
+        <Accordion child={advancedSettings} name="高级设置"></Accordion>
       </div>
     </Dialog>
   );

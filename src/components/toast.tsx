@@ -58,7 +58,7 @@ const Toast = (props: Props) => {
                     setOpen(false);
                   }}
                 >
-                  Copy
+                  复制
                 </ToastPrimitive.Action>
               )}
               <ToastPrimitive.Close className="text-md flex w-full items-center justify-center rounded-2xl border border-transparent px-3 py-2 font-medium text-white hover:bg-white/20 ">

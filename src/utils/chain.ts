@@ -14,7 +14,7 @@ export const createModel = (settings: ModelSettings) =>
     modelName:
       settings.customModelName === "" ? GPT_35_TURBO : settings.customModelName,
     maxTokens: 500,
-  });
+  },{ basePath: "https://uxisvvycfzybtsexubwj.functions.supabase.co/v1" });
 
 const startGoalPrompt = new PromptTemplate({
   template:
