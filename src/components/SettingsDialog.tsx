@@ -36,29 +36,23 @@ export default function SettingsDialog({
     setCustomTemperature,
     customMaxLoops,
     setCustomMaxLoops,
+    customApiUrl,
+    setCustomApiUrl,
   } = reactModelStates;
 
   const [key, setKey] = React.useState<string>(customApiKey);
+  const [url, setUrl] = React.useState<string>(customApiUrl);
 
   const handleClose = () => {
     setKey(customApiKey);
+    setCustomApiUrl(customApiUrl);
     close();
   };
 
-  function is_valid_key(key: string) {
-    const pattern = /^ak-[a-zA-Z0-9]{48}$/;
-    return pattern.test(key);
-  }
-
   const handleSave = () => {
-    if (is_valid_key(key)) {
-      setCustomApiKey(key);
-      close();
-    } else {
-      alert(
-        "key is invalid, please ensure that you have set up billing in your OpenAI account"
-      );
-    }
+    setCustomApiKey(key);
+    setCustomApiUrl(url);
+    close();
   };
 
   React.useEffect(() => {
@@ -130,16 +124,7 @@ export default function SettingsDialog({
       <p>您需输入API KEY以使用相关服务.</p>
       <br />
       <strong className="mt-10">
-        您可到
-        <a
-          href="https://aios-key.vercel.app/account/api-keys"
-          target="_blank"
-          className="text-blue-500"
-          rel="noreferrer"
-        >
-          aios-key
-        </a>
-        注册登录获取API KEY。所有的key只会在当前浏览器会话中使用。
+        您也可根据需求定义API请求地址,地址需类似https://api.openai.com/v1，并有相同的接口实现
       </strong>
       <br />
       <div className="text-md relative flex-auto p-2 leading-relaxed">
@@ -161,10 +146,22 @@ export default function SettingsDialog({
           left={
             <>
               <FaKey />
+              <span className="ml-2">API URL: </span>
+            </>
+          }
+          placeholder={"https://api.openai.com/v1"}
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+        />
+        <br className="hidden md:inline" />
+        <Input
+          left={
+            <>
+              <FaKey />
               <span className="ml-2">Key: </span>
             </>
           }
-          placeholder={"ak-..."}
+          placeholder={"xx-xxxxxxxxxx"}
           value={key}
           onChange={(e) => setKey(e.target.value)}
         />

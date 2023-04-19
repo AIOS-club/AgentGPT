@@ -8,13 +8,11 @@ import Drawer from "../components/Drawer";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import { FaRobot, FaStar } from "react-icons/fa";
-import PopIn from "../components/motions/popin";
 import { VscLoading } from "react-icons/vsc";
 import AutonomousAgent from "../components/AutonomousAgent";
 import Expand from "../components/motions/expand";
 import HelpDialog from "../components/HelpDialog";
 import SettingsDialog from "../components/SettingsDialog";
-import { GPT_35_TURBO, DEFAULT_MAX_LOOPS_FREE } from "../utils/constants";
 import { TaskWindow } from "../components/TaskWindow";
 import { useAuth } from "../hooks/useAuth";
 import useModelSetting from "../hooks/useModelSetting";
@@ -34,6 +32,8 @@ const Home: NextPage = () => {
     setCustomModelName,
     customTemperature,
     setCustomTemperature,
+    customApiUrl,
+    setCustomApiUrl,
   } = useModelSetting();
 
   const [shouldAgentStop, setShouldAgentStop] = React.useState(false);
@@ -97,7 +97,13 @@ const Home: NextPage = () => {
       goalInput,
       handleAddMessage,
       () => setAgent(null),
-      { customApiKey, customModelName, customTemperature, customMaxLoops },
+      {
+        customApiKey,
+        customModelName,
+        customTemperature,
+        customMaxLoops,
+        customApiUrl,
+      },
       session ?? undefined
     );
     setAgent(agent);
@@ -131,6 +137,8 @@ const Home: NextPage = () => {
           setCustomTemperature,
           customMaxLoops,
           setCustomMaxLoops,
+          customApiUrl,
+          setCustomApiUrl,
         }}
         show={showSettingsDialog}
         close={() => setShowSettingsDialog(false)}
@@ -164,7 +172,7 @@ const Home: NextPage = () => {
                 </span>
               </div>
               <div className="mt-1 text-center font-mono text-[0.7em] font-bold text-white">
-                <p>基于AgentGPT开发，使用AIOS API 服务</p>
+                <p>基于AgentGPT开发</p>
               </div>
             </div>
 

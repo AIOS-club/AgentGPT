@@ -11,6 +11,7 @@ import {
   DEFAULT_MAX_LOOPS_CUSTOM_API_KEY,
   DEFAULT_MAX_LOOPS_FREE,
   DEFAULT_MAX_LOOPS_PAID,
+  DEFAULT_API_URL
 } from "../utils/constants";
 import type { Session } from "next-auth";
 
@@ -267,8 +268,10 @@ class AutonomousAgent {
 const testConnection = async (modelSettings: ModelSettings) => {
   // A dummy connection to see if the key is valid
   // Can't use LangChain / OpenAI libraries to test because they have retries in place
+
+  const url = (modelSettings.customApiUrl ? modelSettings.customApiUrl : DEFAULT_API_URL) +'/chat/completions'
   return await axios.post(
-    "https://uxisvvycfzybtsexubwj.functions.supabase.co/v1/chat/completions",
+    url,
     {
       model: modelSettings.customModelName,
       messages: [{ role: "user", content: "Say this is a test" }],

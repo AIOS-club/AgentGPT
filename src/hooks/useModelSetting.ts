@@ -29,6 +29,8 @@ const useModelSetting = () => {
     DEFAULT_MAX_LOOPS_FREE
   );
 
+  const [customApiUrl, setCustomApiUrl] = useState('')
+
   useEffect(() => {
     localStorage.setItem(
       localSettingKey,
@@ -36,10 +38,11 @@ const useModelSetting = () => {
         customApiKey,
         customModelName,
         customTemperature,
-        customMaxLoops
+        customMaxLoops,
+        customApiUrl
       })
     );
-  }, [customApiKey, customModelName, customTemperature,customMaxLoops]);
+  }, [customApiKey, customModelName, customTemperature,customMaxLoops,customApiUrl]);
 
   return {
     customApiKey,
@@ -50,6 +53,8 @@ const useModelSetting = () => {
     setCustomApiKey,
     setCustomModelName,
     setCustomTemperature,
+    customApiUrl,
+    setCustomApiUrl
   };
 };
 
