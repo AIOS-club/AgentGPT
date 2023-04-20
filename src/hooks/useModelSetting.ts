@@ -1,4 +1,4 @@
-import { DEFAULT_MAX_LOOPS_FREE, GPT_35_TURBO } from "../utils/constants";
+import { DEFAULT_MAX_LOOPS_FREE, GPT_35_TURBO,DEFAULT_API_URL } from "../utils/constants";
 import { useEffect, useState } from "react";
 const localSettingKey = "AUTOGPTSETTING";
 
@@ -6,7 +6,8 @@ interface ISetting {
   customApiKey: string;
   customModelName: string;
   customTemperature: number;
-  customMaxLoops: number
+  customMaxLoops: number;
+  customApiUrl: string;
 }
 
 function getLocalSetting(): ISetting | undefined {
@@ -29,7 +30,7 @@ const useModelSetting = () => {
     DEFAULT_MAX_LOOPS_FREE
   );
 
-  const [customApiUrl, setCustomApiUrl] = useState('')
+  const [customApiUrl, setCustomApiUrl] = useState(localSetting?.customApiUrl || DEFAULT_API_URL)
 
   useEffect(() => {
     localStorage.setItem(
