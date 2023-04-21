@@ -51,7 +51,8 @@ export default function SettingsDialog({
 
   const handleSave = () => {
     setCustomApiKey(key);
-    setCustomApiUrl(url);
+    const formatUrl = url.replace(/([\w\W]+)\/$/, "$1");
+    setCustomApiUrl(formatUrl);
     close();
   };
 
